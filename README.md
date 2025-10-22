@@ -20,4 +20,4 @@ The thumb keys hold the power to activate higher layers by holding them down, as
 
 *The function keys on layer 2 exclude the useless ones, replacing them with more critical operations. Notably, it is good to have Bootloader Mode and direction keys on the left hand side, as that allows you to flash each side of the split ergo independently using command line history in QMK (when the right half is plugged in by itself to be flashed, it operates as a mirror image of the left half).
 
-![Keymap](https://i.imgur.com/cBA9I0C.png)
+![Keymap](https://i.imgur.com/9N7Ingz.jpeg)
