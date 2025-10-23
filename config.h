@@ -17,11 +17,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define MOUSEKEY_DELAY	10 //Delay between pressing a movement key and cursor movement
-#define MOUSEKEY_INTERVAL	20	//Time between cursor movements in milliseconds
-#define MOUSEKEY_MOVE_DELTA	8	//Step size
-#define MOUSEKEY_MAX_SPEED	10	//Maximum cursor speed at which acceleration stops
-#define MOUSEKEY_TIME_TO_MAX	30	//Time until maximum cursor speed is reached
+#define MOUSEKEY_INERTIA //Enable Inertia mode
+#define MOUSEKEY_DELAY	150	//Delay between pressing a movement key and cursor movement
+#define MOUSEKEY_INTERVAL	16	//Time between cursor movements in milliseconds (16 = 60fps)
+#define MOUSEKEY_MAX_SPEED	42	//Maximum cursor speed at which acceleration stops (resolution/FPS, 2560/60=42)
+#define MOUSEKEY_TIME_TO_MAX	32	//Number of frames until maximum cursor speed is reached
+#define MOUSEKEY_FRICTION	24	//How quickly the cursor stops after releasing a key
+#define MOUSEKEY_MOVE_DELTA	1	//How much to move on first frame (1 strongly recommended)
 
 #define MOUSEKEY_WHEEL_DELAY	10	//Delay between pressing a wheel key and wheel movement
 #define MOUSEKEY_WHEEL_INTERVAL	80	//Time between wheel movements
