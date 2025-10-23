@@ -1,3 +1,4 @@
+#include "config.h"
 #ifdef CONSOLE_ENABLE
 #   include "print.h"
 #endif
@@ -13,33 +14,29 @@
 #endif // OTHER_KEYMAP_C
 
 enum custom_keycodes {
-    PY_FOR = SAFE_RANGE,
-    PY_PAR,
+    PY_PAR = SAFE_RANGE,
     PY_BRK,
     PY_CRL,
-    PY_CMT,
-    PY_DEF,
-    PY_PRT,
-    PY_IMP,
-    PY_OPN,
-    PY_TRY,
     EM_FYOU,
+    NM_THZ,
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    /*
     #ifdef CONSOLE_ENABLE
         const bool is_combo = record->event.type == COMBO_EVENT;
-            uprintf("0x%04X,%u,%u,%u,%b,0x%02X,0x%02X,%u\n",
-                keycode,
-                is_combo ? 254 : record->event.key.row,
-                is_combo ? 254 : record->event.key.col,
-                get_highest_layer(layer_state),
-                record->event.pressed,
-                get_mods(),
-                get_oneshot_mods(),
-                record->tap.count
-                );
+        uprintf("0x%04X,%u,%u,%u,%b,0x%02X,0x%02X,%u\n",
+            keycode,
+            is_combo ? 254 : record->event.key.row,
+            is_combo ? 254 : record->event.key.col,
+            get_highest_layer(layer_state),
+            record->event.pressed,
+            get_mods(),
+            get_oneshot_mods(),
+            record->tap.count
+            );
     #endif
+    */
     switch (keycode) {
         case PY_PAR:
             if (record->event.pressed) {
@@ -53,37 +50,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 SEND_STRING("{}" SS_TAP(X_LEFT));}
             return false;
-        case PY_CMT:
-            if (record->event.pressed) {
-                SEND_STRING("###\n\n###\n" SS_TAP(X_UP) SS_TAP(X_UP));}
-            return false;
-        case PY_DEF:
-            if (record->event.pressed) {
-                SEND_STRING("def ():" SS_TAP(X_LEFT) SS_TAP(X_LEFT));}
-            return false;
-        case PY_PRT:
-            if (record->event.pressed) {
-                SEND_STRING("print(f'')" SS_TAP(X_LEFT) SS_TAP(X_LEFT));}
-            return false;
-        case PY_FOR:
-            if (record->event.pressed) {
-                SEND_STRING("for i in range():" SS_TAP(X_LEFT) SS_TAP(X_LEFT));}
-            return false;
-        case PY_IMP:
-            if (record->event.pressed) {
-                SEND_STRING("import pandas as pd\nimport numpy as np\n");}
-            return false;
-        case PY_OPN:
-            if (record->event.pressed) {
-                SEND_STRING("with open(\"\") as f:\n    data = f.read()" SS_TAP(X_UP) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));}
-            return false;
-        case PY_TRY:
-            if (record->event.pressed) {
-                SEND_STRING("try:\n    \nexcept Exception as e:\n    print(e)" SS_TAP(X_UP) SS_TAP(X_UP));}
-            return false;
         case EM_FYOU:
             if (record->event.pressed) {
                 send_unicode_string("╭∩╮(-_-)╭∩╮");}
+            return false;
+        case NM_THZ:
+            if (record->event.pressed) {
+                SEND_STRING(",000");}
             return false;
     }
     return true;
@@ -98,6 +71,9 @@ tap_dance_action_t tap_dance_actions[] = {
     // Tap once for Escape, twice for Caps Lock
     [TD_Q_ESC] = ACTION_TAP_DANCE_DOUBLE(KC_Q, KC_ESC),
 };
+
+// Ctrl-Alt-Del key combination
+#define KC_CAD LALT(LCTL(KC_DEL))
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x5_2(
@@ -129,7 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_F4,KC_F3,UC_NEXT,KC_LEFT,KC_RIGHT,
     KC_EQL,KC_7,KC_8,KC_9,KC_ASTR,
     //
-    KC_F8,KC_PSCR,KC_F6,KC_CAPS,KC_UP,
+    KC_F8,KC_PSCR,KC_CAPS,KC_ENT,KC_UP,
     KC_DOT,RSFT_T(KC_4),RCTL_T(KC_5),LALT_T(KC_6),KC_PMNS,
     //
     KC_F12,KC_F11,KC_F10,QK_BOOT,KC_DOWN,
@@ -139,10 +115,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,KC_TRNS),
     [3] = LAYOUT_split_3x5_2(
     KC_LSFT,KC_HOME,KC_INS,KC_DEL,KC_END,
-    KC_PSCR,KC_WBAK,MS_BTN3,KC_WFWD,KC_VOLU,
+    KC_LEFT,KC_RGHT,KC_WBAK,KC_WFWD,KC_VOLU,
     //
     KC_LCTL,MS_WHLL,MS_WHLU,MS_WHLR,KC_PGUP,
-    KC_RIGHT,MS_LEFT,MS_UP,MS_RGHT,KC_VOLD,
+    KC_UP,MS_LEFT,MS_UP,MS_RGHT,KC_VOLD,
     //
     KC_LALT,MS_BTN1,MS_WHLD,MS_BTN2,KC_PGDN,
     KC_DOWN,MS_BTN1,MS_DOWN,MS_BTN2,KC_MUTE,
@@ -150,11 +126,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,KC_TRNS,
     KC_TRNS,KC_TRNS),
     [4] = LAYOUT_split_3x5_2(
-    XXXXXXX,XXXXXXX,XXXXXXX,EM_FYOU,XXXXXXX,
+    XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
     XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
     //
-    PY_FOR,PY_CRL,PY_BRK,PY_PAR,PY_IMP,
-    PY_OPN,PY_PRT,PY_CMT,PY_DEF,PY_TRY,
+    XXXXXXX,PY_CRL,PY_BRK,PY_PAR,XXXXXXX,
+    XXXXXXX,NM_THZ,EM_FYOU,KC_CAD,XXXXXXX,
     //
     XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
     XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
@@ -168,11 +144,11 @@ bool caps_word_press_user(uint16_t keycode) {switch (keycode) {
             add_weak_mods(MOD_BIT(KC_LSFT)); // Apply Shift to make them uppercase
             return true;
 
-        // Allow numbers and underscore
+        // Allow numbers,underscore,hyphen and backspace in Caps Word
         case KC_1 ... KC_0:
         case KC_UNDS:
         case KC_BSPC:
-        case KC_DEL:
+        case KC_PMNS:
             return true;
 
         // Otherwise, turn Caps Word off
