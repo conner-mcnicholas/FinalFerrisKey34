@@ -158,7 +158,7 @@ bool caps_word_press_user(uint16_t keycode) {switch (keycode) {
 
 
 
-const uint16_t PROGMEM llock_combo_left[] = {LT(1, KC_ESC), LT(2, KC_SPC), COMBO_END};
+const uint16_t PROGMEM llock_combo_left[] = {LT(1, KC_TAB), LT(2, KC_SPC), COMBO_END};
 const uint16_t PROGMEM llock_combo_right[] = {LT(3, KC_BSPC), LT(4, KC_ENT), COMBO_END};
 combo_t key_combos[] = {
     COMBO(llock_combo_left, QK_LLCK),
