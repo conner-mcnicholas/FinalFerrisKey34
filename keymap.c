@@ -19,6 +19,7 @@ enum custom_keycodes {
     PY_CRL,
     EM_FYOU,
     NM_THZ,
+    BT_GRB,
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -38,6 +39,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     #endif
     */
     switch (keycode) {
+
         case PY_PAR:
             if (record->event.pressed) {
                 SEND_STRING("()" SS_TAP(X_LEFT));}
@@ -57,6 +59,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case NM_THZ:
             if (record->event.pressed) {
                 SEND_STRING(",000");}
+            return false;
+        case BT_GRB:
+            if (record->event.pressed) {
+                SEND_STRING("set prefix=(hd1,gpt2)/boot/grub;set root=(hd1,gpt2);insmod normal;normal");}
             return false;
     }
     return true;
@@ -102,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,KC_TRNS,
     KC_TRNS,KC_TRNS),
     [2] = LAYOUT_split_3x5_2(
-    KC_F4,KC_F3,UC_NEXT,KC_LEFT,KC_RIGHT,
+    KC_F4,KC_F3,KC_F2,KC_LEFT,KC_RIGHT,
     KC_EQL,KC_7,KC_8,KC_9,KC_ASTR,
     //
     KC_F8,KC_PSCR,KC_CAPS,KC_ENT,KC_UP,
@@ -115,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,KC_TRNS),
     [3] = LAYOUT_split_3x5_2(
     KC_LSFT,KC_HOME,KC_INS,KC_DEL,KC_END,
-    KC_LEFT,KC_RGHT,KC_WBAK,KC_WFWD,KC_VOLU,
+    KC_LEFT,KC_RGHT,XXXXXXX,UC_NEXT,KC_VOLU,
     //
     KC_LCTL,MS_WHLL,MS_WHLU,MS_WHLR,KC_PGUP,
     KC_UP,MS_LEFT,MS_UP,MS_RGHT,KC_VOLD,
@@ -133,7 +139,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX,NM_THZ,EM_FYOU,KC_CAD,XXXXXXX,
     //
     XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
-    XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,
+    XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,BT_GRB,
     //
     XXXXXXX,XXXXXXX,
     XXXXXXX,XXXXXXX)};
@@ -160,6 +166,7 @@ bool caps_word_press_user(uint16_t keycode) {switch (keycode) {
 
 const uint16_t PROGMEM llock_combo_left[] = {LT(1, KC_TAB), LT(2, KC_SPC), COMBO_END};
 const uint16_t PROGMEM llock_combo_right[] = {LT(3, KC_BSPC), LT(4, KC_ENT), COMBO_END};
+
 combo_t key_combos[] = {
     COMBO(llock_combo_left, QK_LLCK),
     COMBO(llock_combo_right, QK_LLCK),
